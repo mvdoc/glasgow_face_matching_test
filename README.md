@@ -9,9 +9,10 @@ If you use this implementation, please cite it using the Zenodo DOI, as well as 
 ## Setup
 
 1. Download the stimuli from the [York FaceVar Lab](http://www.facevar.com/downloads/gfmt)
-2. Put the **jpg stimuli** in a `stimuli` folder, with the short and long version in two separate folders. This is the expected directory tree
+2. Put the **jpg stimuli** in a `stimuli` folder within the directory where `gfmt.py` is, with the short and long version in two separate folders. This is the expected directory tree
 
     ```
+    ├── gfmt.py
     └── stimuli
         ├── long
         │   ├── different
