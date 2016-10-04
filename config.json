@@ -6,7 +6,7 @@
     ],
     "out_path": "./results",
     "response_keys": {
-      "left": "yes",
-      "right": "no"
+      "left": "same",
+      "right": "different"
     }
 }
