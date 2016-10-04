@@ -12,7 +12,6 @@ from os.path import join as pjoin, exists as pexists
 from psychopy import visual, core, logging, data, event
 import json
 
-
 version = '0.0.1'
 
 
