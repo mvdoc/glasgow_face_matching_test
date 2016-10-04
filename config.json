@@ -1,0 +1,12 @@
+{
+    "stimuli_dir": "./stimuli",
+    "stimuli_type": [
+      "same",
+      "different"
+    ],
+    "out_path": "./results",
+    "response_keys": {
+      "yes": "left",
+      "no": "right"
+    }
+}
