@@ -102,6 +102,11 @@ class GFMT(object):
             for fn in glob(pjoin(self.get_stimtype_dir(stim_type), '*.jpg')):
                 self.stimuli[fn] = visual.ImageStim(self.win, image=fn)
 
+        if self.info['version'] == 'short':
+            assert(len(self.stimuli) == 40)
+        else:
+            assert(len(self.stimuli) == 168)
+
         # save text to display under stimuli
         keys = sorted(self.cfg['response_keys'].keys())
         text = '{0}: {1}\t\t\t{2}: {3}'.format(
