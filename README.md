@@ -1,4 +1,4 @@
-`[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.159304.svg)](https://doi.org/10.5281/zenodo.159304)`
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.159304.svg)](https://doi.org/10.5281/zenodo.159304)
 
 # PsychoPy Implementation of Glasgow Face Matching Test
 
