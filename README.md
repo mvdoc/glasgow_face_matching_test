@@ -1,3 +1,5 @@
+#### `[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.159304.svg)](https://doi.org/10.5281/zenodo.159304)`
+
 # PsychoPy Implementation of Glasgow Face Matching Test
 
 This repository contains a PsychoPy implementation of the Glasgow Face Matching Test by Burton, White, & McNeill (2010). It's been written using **PsychoPy 1.84.1**. If you find any issues with other versions, feel free to open an issue and/or pull request.
