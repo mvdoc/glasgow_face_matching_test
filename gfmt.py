@@ -9,7 +9,7 @@ Behavior Research Methods. http://doi.org/10.3758/BRM.42.1.286
 from glob import glob
 from os import makedirs
 from os.path import join as pjoin, exists as pexists
-from psychopy import visual, core, logging, data
+from psychopy import visual, core, logging, data, event
 import json
 
 
@@ -35,13 +35,16 @@ def ask_subjinfo():
 
 class GFMT(object):
     def __init__(self, info, cfgfile):
-        self.stimuli = []
+        self.stimuli = {}
         self.info = info
         self.cfg = self.load_cfg(cfgfile)
         self.experiment_handler = None
+        self.trial_order = None
         self.win = None
+        self.text_info = None
 
         self.setup_datasaver()
+        self.setup_trialorder()
         self.setup_win()
 
     @staticmethod
@@ -69,19 +72,54 @@ class GFMT(object):
                                    dataFileName=pjoin(subject_out_path,
                                                       'results'))
 
-    def load_stimuli(self):
-        # store in self.stimuli a tuple with stimulus object and type
+    def setup_trialorder(self):
+        # make trial_list to pass to trialhandler
+        trial_list = []
         for stim_type in self.cfg['stim_type']:
             for fn in glob(pjoin(self.cfg['stim_dir'], stim_type)):
-                win_stim = visual.ImageStim(self.win,
-                                            image=fn)
-                self.stimuli.append((win_stim, stim_type))
+                trial_list.append({'stim_name': fn,
+                                   'stim_type': stim_type})
+        self.trial_order = data.TrialHandler(trial_list, 1, method='random')
+        # add to experiment_handler
+        self.experiment_handler.addLoop(self.trial_order)
 
-    def trial(self, stim):
-        pass
+    def load_stimuli(self):
+        # self.stimuli is a hash table with fn -> stim obj
+        for stim_type in self.cfg['stim_type']:
+            for fn in glob(pjoin(self.cfg['stim_dir'], stim_type)):
+                self.stimuli[fn] = visual.ImageStim(self.win, image=fn)
+
+        # save text to display under stimuli
+        keys = sorted(self.cfg['response_keys'].keys())
+        text = '{0}: {1}\t\t\t{2}: {3}'.format(
+            keys[0],
+            self.cfg['response_keys'][keys[0]],
+            keys[1],
+            self.cfg['response_keys'][keys[1]]
+            )
+        self.text_info = visual.TextStim(self.win,
+                                         text,
+                                         pos=(-0.5, -0.5))
 
     def run(self):
-        pass
+        for trial in self.trial_order:
+            stim_name = trial['stim_name']
+            # draw stimulus
+            self.stimuli[stim_name].draw()
+            # draw text
+            self.text_info.draw()
+            self.win.flip()
+            # wait for response
+            keys = []
+            while self.cfg['response_keys'].values() not in keys:
+                keys = event.getKeys()
+            self.win.flip()
+            # store response
+            self.trial_order.addData('response',
+                                     '+'.join([self.cfg['response_keys'][k]
+                                               for k in keys]))
+            # update to next entry in experiment handler
+            self.experiment_handler.nextEntry()
 
 
 def main():
