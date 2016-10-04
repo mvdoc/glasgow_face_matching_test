@@ -22,12 +22,14 @@ def ask_subjinfo():
     info = {'subject_id': '',
             'subject_age': '',
             'subject_gender': ['male', 'female', 'other'],
+            'version': ['long', 'short'],
             }
     info_dlg = gui.DlgFromDict(dictionary=info,
                                title='Glasgow Face Matching Test',
                                order=['subject_id',
                                       'subject_age',
-                                      'subject_gender'])
+                                      'subject_gender',
+                                      'version'])
     if not info_dlg.OK:
         core.quit()
     return info
@@ -46,6 +48,7 @@ class GFMT(object):
         self.setup_datasaver()
         self.setup_trialorder()
         self.setup_win()
+        self.load_stimuli()
 
     @staticmethod
     def load_cfg(cfgfile):
@@ -66,17 +69,19 @@ class GFMT(object):
             makedirs(subject_out_path)
 
         # setup experimenthandler
+        fn_out = pjoin(subject_out_path,
+                       'results_{0}'.format(self.info['version']))
         self.experiment_handler = \
             data.ExperimentHandler(name='GFMT', version=version,
                                    extraInfo=self.info,
-                                   dataFileName=pjoin(subject_out_path,
-                                                      'results'))
+                                   dataFileName=fn_out)
 
     def setup_trialorder(self):
         # make trial_list to pass to trialhandler
         trial_list = []
         for stim_type in self.cfg['stim_type']:
-            for fn in glob(pjoin(self.cfg['stim_dir'], stim_type)):
+            for fn in glob(pjoin(self.cfg['stim_dir'],
+                                 self.info['version'], stim_type)):
                 trial_list.append({'stim_name': fn,
                                    'stim_type': stim_type})
         self.trial_order = data.TrialHandler(trial_list, 1, method='random')
@@ -86,7 +91,9 @@ class GFMT(object):
     def load_stimuli(self):
         # self.stimuli is a hash table with fn -> stim obj
         for stim_type in self.cfg['stim_type']:
-            for fn in glob(pjoin(self.cfg['stim_dir'], stim_type)):
+            for fn in glob(pjoin(self.cfg['stim_dir'],
+                                 self.info['version'],
+                                 stim_type)):
                 self.stimuli[fn] = visual.ImageStim(self.win, image=fn)
 
         # save text to display under stimuli
