@@ -9,23 +9,23 @@ If you use this implementation, please cite it using the Zenodo DOI, as well as 
 1. Download the stimuli from the [York FaceVar Lab](http://www.facevar.com/downloads/gfmt)
 2. Put the **jpg stimuli** in a `stimuli` folder, with the short and long version in two separate folders. This is the expected directory tree
 
-```
-└── stimuli
-    ├── long
-    │   ├── different
-    │   │   ├── 003_020_L.jpg
-    │   │   ├── ...
-    │   └── same
-    │       ├── 003_C2_DV.jpg
-    │       ├── ...
-    └── short
-        ├── different
-        │   ├── 013_235_R.jpg
-        │   ├── ...  
-        └── same
-            ├── 020_C2_DV.jpg
-            ├── ...
-```
+    ```
+    └── stimuli
+        ├── long
+        │   ├── different
+        │   │   ├── 003_020_L.jpg
+        │   │   ├── ...
+        │   └── same
+        │       ├── 003_C2_DV.jpg
+        │       ├── ...
+        └── short
+            ├── different
+            │   ├── 013_235_R.jpg
+            │   ├── ...  
+            └── same
+                ├── 020_C2_DV.jpg
+                ├── ...
+    ```
 
 3. Use PsychoPy to run `gfmt.py`. Results will be under `./results`.
 
